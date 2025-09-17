@@ -25,7 +25,7 @@ const tasks = [
     {
         "id": 3,
         "titulo": "Desenvolver a API",
-        "descricao": "Construir um serve.js com node, express e cors;",
+        "descricao": "Construir um serve.js com node, express e cors",
         "concluida": false
     }
 ]
