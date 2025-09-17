@@ -21,10 +21,16 @@ const tasks = [
         "titulo": "Criar o layout",
         "descricao": "Desenvolver o layout",
         "concluida": true
+    },
+    {
+        "id": 3,
+        "titulo": "Desenvolver a API",
+        "descricao": "Construir um serve.js com node, express e cors;",
+        "concluida": false
     }
 ]
 
-let nextId = 3;
+let nextId = 4;
 
 //Faço um get de tarefas
 app.get("/tasks", (req, response) => {

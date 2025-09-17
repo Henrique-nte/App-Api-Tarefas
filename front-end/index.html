@@ -9,9 +9,36 @@
 </head>
 
 <body>
-    <h1>Gerenciamento de Tarfeas</h1>
 
+    <div class="container">
+        <h1>📌Minhas Tarefas</h1>
 
+        <!-- Formulário para criar nova tarefa -->
+        <form id="form-tarefa">
+            <input type="text" id="titulo" placeholder="Título da tarefa" required>
+            <textarea id="descricao" placeholder="Descrição da tarefa" rows="3" required></textarea>
+            <button type="submit">Adicionar Tarefa</button>
+        </form>
+
+        <!-- Lista de tarefas -->
+        <ul id="lista-tarefas">
+            <!-- Exemplo de tarefa carregada -->
+            <li class="tarefa" data-id="1">
+                <div class="tarefa-info">
+                    <h3>Estudar JavaScript</h3>
+                    <p>Praticar fetch e APIs</p>
+                </div>
+                <button class="btn-concluir">Marcar como Concluída</button>
+            </li>
+            <li class="tarefa concluida" data-id="2">
+                <div class="tarefa-info">
+                    <h3>Ler livro</h3>
+                    <p>Capítulo 5 de Memórias Póstumas</p>
+                </div>
+                <button class="btn-concluir" disabled>Concluída</button>
+            </li>
+        </ul>
+    </div>
 
 
     <script src="script.js"></script>
