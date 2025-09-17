@@ -1,0 +1,8 @@
+body {
+    background: url("../imgs/Bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+h1 {
+    color: white;
+}
