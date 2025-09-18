@@ -7,7 +7,6 @@ async function getData() {
     }
 
     const data = response.json();
-    console.log("data: ", data);
 
     return data;
   } catch (error) {
