@@ -126,6 +126,8 @@ async function sendNewTask(url, data) {
       body: JSON.stringify(data),
     });
 
+    console.log(response);
+
     if (!response.ok) {
       throw new Error(`Erro na requisição: ${response.status}`);
     }
@@ -146,15 +148,22 @@ async function main() {
   // console.log(tasks);
 
   const formTask = document.getElementById("form-tarefa");
-  const tituloTask = formTask.querySelector("input").value;
-  const descTask = formTask.querySelector("textarea").value;
   const button = formTask.querySelector("button");
 
   let url = "http://localhost:3000/tasks";
 
   button.addEventListener("click", (event) => {
     event.preventDefault();
-    sendNewTask(url, `{titulo: ${tituloTask}, descricao: ${descTask} }`);
+
+    const tituloTask = formTask.querySelector("input").value;
+    const descTask = formTask.querySelector("textarea").value;
+
+    let array = {
+      title: tituloTask,
+      desc: descTask
+    };
+
+    sendNewTask(url, array);
   });
 }
 

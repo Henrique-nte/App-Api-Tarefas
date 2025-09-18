@@ -6,7 +6,11 @@ const app = express(); //Criação do servidor
 const port = 3000; //Será executado na porta 3000
 
 app.use(express.json()); //Permite receber json nas requisições
-app.use(cors());
+app.use(cors({
+  origin: ['http://127.0.0.1:5500'],
+  methods: '*',
+  allowedHeaders: '*'
+}));
 
 //Array
 const tasks = [
@@ -39,10 +43,21 @@ app.get("/tasks", (req, response) => {
 
 //Post para adicionar novas tasks
 app.post("/tasks", (req, response) => {
-  const newTask = req.body;
-  newTask.id = nextId++;
-  tasks.push(newTask);
-  response.status(201).send(newTask);
+
+
+  const { title, desc } = req.body;
+  console.log(req.body);
+
+
+  tasks.push({
+    id: nextId,
+    titulo: title,
+    descricao: desc,
+    concluida: false
+  });
+
+  nextId++;
+  response.status(201);
 });
 
 //Patch para atualizar a tarefa como concluida
