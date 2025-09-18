@@ -1,65 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gerenciamento de Tarefas</title>
-    <link rel="stylesheet" href="../assets/styles/styles.css">
-</head>
+    <link rel="stylesheet" href="../assets/styles/styles.css" />
+  </head>
 
-<body>
-
+  <body>
     <div class="container">
-        <h1>📌 Minhas Tarefas</h1>
+      <h1>📌 Minhas Tarefas</h1>
 
-        <!-- Formulário para criar nova tarefa -->
-        <form id="form-tarefa">
-            <input type="text" id="titulo" placeholder="Título da tarefa" required>
-            <textarea id="descricao" placeholder="Descrição da tarefa" rows="3" required></textarea>
-            <button type="submit">Adicionar Tarefa</button>
-            <span class="erro" id="erro-titulo">⚠ O título da tarefa não pode estar vazio.</span>
-        </form>
+      <!-- Formulário para criar nova tarefa -->
+      <form id="form-tarefa">
+        <input
+          type="text"
+          id="titulo"
+          placeholder="Título da tarefa"
+          required
+        />
+        <textarea
+          id="descricao"
+          placeholder="Descrição da tarefa"
+          rows="3"
+          required
+        ></textarea>
+        <button type="submit">Adicionar Tarefa</button>
+        <span class="erro" id="erro-titulo"
+          >⚠ O título da tarefa não pode estar vazio.</span
+        >
+      </form>
 
-        <!-- Filtros -->
-        <div class="filtros">
-            <button id="filtro-todas">Todas</button>
-            <button id="filtro-pendentes">Pendentes</button>
-            <button id="filtro-concluidas">Concluídas</button>
-        </div>
+      <!-- Filtros -->
+      <div class="filtros">
+        <button id="filtro-todas">Todas</button>
+        <button id="filtro-pendentes">Pendentes</button>
+        <button id="filtro-concluidas">Concluídas</button>
+      </div>
 
-        <!-- Lista de tarefas -->
-        <ul id="lista-tarefas">
+      <!-- Lista de tarefas -->
+      <ul id="lista-tarefas">
+        <!-- Exemplo de tarefa pendente -->
+        <li class="tarefa">
+          <div class="tarefa-info">
+            <h3>Estudar JavaScript</h3>
+            <p>Praticar fetch e APIs</p>
+          </div>
+          <div class="acoes">
+            <button class="btn-concluir">Marcar como Concluída</button>
+            <button class="btn-excluir">Excluir</button>
+          </div>
+        </li>
 
-            <!-- Exemplo de tarefa pendente -->
-            <li class="tarefa">
-                <div class="tarefa-info">
-                    <h3>Estudar JavaScript</h3>
-                    <p>Praticar fetch e APIs</p>
-                </div>
-                <div class="acoes">
-                    <button class="btn-concluir">Marcar como Concluída</button>
-                    <button class="btn-excluir">Excluir</button>
-                </div>
-            </li>
-
-            <!-- Exemplo de tarefa concluída -->
-            <li class="tarefa concluida">
-                <div class="tarefa-info">
-                    <h3>Ler livro</h3>
-                    <p>Capítulo 5 de Memórias Póstumas</p>
-                </div>
-                <div class="acoes">
-                    <button class="btn-concluir" disabled>Concluída</button>
-                    <button class="btn-excluir">Excluir</button>
-                </div>
-            </li>
-
-        </ul>
+        <!-- Exemplo de tarefa concluída -->
+        <li class="tarefa concluida">
+          <div class="tarefa-info">
+            <h3>Ler livro</h3>
+            <p>Capítulo 5 de Memórias Póstumas</p>
+          </div>
+          <div class="acoes">
+            <button class="btn-concluir" disabled>Concluída</button>
+            <button class="btn-excluir">Excluir</button>
+          </div>
+        </li>
+      </ul>
     </div>
 
-
     <script src="script.js"></script>
-</body>
-
+  </body>
 </html>

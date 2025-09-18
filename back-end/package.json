@@ -4,7 +4,7 @@
     "express": "^5.1.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node --watch server.js"
   },
   "name": "app-api-tarefas",
   "version": "1.0.0",
