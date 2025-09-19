@@ -1,3 +1,5 @@
+let url = "http://localhost:3000/tasks";
+
 async function getData() {
   try {
     const response = await fetch("http://localhost:3000/tasks");
@@ -98,18 +100,18 @@ function filtroTarefas() {
       for (let i = 0; i < tasks.length; i++) {
         if (tasks[i].concluida === true) {
           listaTasks.innerHTML += `
-                 <li class="tarefa concluida">
-                     <div class="tarefa-info">
-                         <h3>${tasks[i].titulo}</h3>
-                         <p>${tasks[i].descricao}</p>
-                     </div>
-                     <div class="acoes">
-                         <button class="btn-concluir" disabled>Marcar como Concluída</button>
-                         <button class="btn-excluir">Excluir</button>
-                     </div>
-                 </li>
-                
-                `;
+          <li class="tarefa concluida">
+          <div class="tarefa-info">
+          <h3>${tasks[i].titulo}</h3>
+          <p>${tasks[i].descricao}</p>
+          </div>
+          <div class="acoes">
+          <button class="btn-concluir" disabled>Marcar como Concluída</button>
+          <button class="btn-excluir">Excluir</button>
+          </div>
+          </li>
+          
+          `;
         }
       }
     }
@@ -126,16 +128,10 @@ async function sendNewTask(url, data) {
       body: JSON.stringify(data),
     });
 
-    console.log(response);
-
     if (!response.ok) {
-      throw new Error(`Erro na requisição: ${response.status}`);
+      throw new Error(`Erro no post: ${response.status}`);
     }
 
-    const resultado = await resposta.json();
-    console.log("Sucesso:", resultado);
-
-    return resultado;
   } catch (error) {
     console.error("Falha na requisição:", error.message);
   }
@@ -150,8 +146,6 @@ async function main() {
   const formTask = document.getElementById("form-tarefa");
   const button = formTask.querySelector("button");
 
-  let url = "http://localhost:3000/tasks";
-
   button.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -165,6 +159,7 @@ async function main() {
 
     sendNewTask(url, array);
   });
+
 }
 
 main();

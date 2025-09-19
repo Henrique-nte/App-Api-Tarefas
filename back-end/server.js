@@ -44,10 +44,8 @@ app.get("/tasks", (req, response) => {
 //Post para adicionar novas tasks
 app.post("/tasks", (req, response) => {
 
-
   const { title, desc } = req.body;
-  console.log(req.body);
-
+  // console.log(req.body);
 
   tasks.push({
     id: nextId,
