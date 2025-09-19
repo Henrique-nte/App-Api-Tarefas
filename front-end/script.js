@@ -150,7 +150,7 @@ function showMessage(message) {
 
   setTimeout(() => {
     location.reload();
-  }, 1000)
+  }, 1200)
 
 }
 
