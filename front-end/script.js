@@ -26,9 +26,7 @@ async function getData() {
 
 getData();
 
-const tasks = [];
-
-function addTasks(data) {
+function addTasks(data, tasks) {
   for (const task of data) {
     tasks.push({
       id: task.id,
@@ -41,7 +39,7 @@ function addTasks(data) {
 
 
 
-function filtroTarefas() {
+function filtroTarefas(tasks) {
   document.addEventListener("click", (event) => {
     const button = event.target.id;
 
@@ -163,9 +161,11 @@ function showMessage(message, cor) {
 }
 
 async function main() {
+  const tasks = [];
+
   const data = await getData();
-  addTasks(data);
-  filtroTarefas();
+  addTasks(data, tasks);
+  filtroTarefas(tasks);
   // console.log(tasks);
 
   const button = formTask.querySelector("button");
@@ -190,13 +190,11 @@ async function main() {
       descricao: descTask.value
     };
 
-    sendNewTask(url, task).then(() => {
-      tasks.push(task);       // atualiza array em memória
-      showMessage("Tarefa adicionada!", "green");
-    });
+    sendNewTask(url, task)
+
+    showMessage("Tarefa adicionada!", "green");
 
   });
-
 
 }
 
