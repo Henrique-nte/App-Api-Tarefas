@@ -190,8 +190,10 @@ async function main() {
       descricao: descTask.value
     };
 
-    sendNewTask(url, task);
-    showMessage("Tarefa adicionada!", "green");
+    sendNewTask(url, task).then(() => {
+      tasks.push(task);       // atualiza array em memória
+      showMessage("Tarefa adicionada!", "green");
+    });
 
   });
 
