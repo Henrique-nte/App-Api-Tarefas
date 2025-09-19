@@ -47,35 +47,33 @@ function filtroTarefas(tasks) {
     if (button === "filtro-todas") {
       listaTasks.innerHTML = "";
 
-      for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].concluida === true) {
+      for (const task of tasks) {
+        if (task.concluida) {
           listaTasks.innerHTML += `
-                 <li class="tarefa concluida">
-                     <div class="tarefa-info">
-                         <h3>${tasks[i].titulo}</h3>
-                         <p>${tasks[i].descricao}</p>
-                     </div>
-                     <div class="acoes">
-                         <button class="btn-concluir" disabled>Marcar como Concluída</button>
-                         <button class="btn-excluir">Excluir</button>
-                     </div>
-                 </li>
-                
-                `;
+            <li class="tarefa concluida">
+              <div class="tarefa-info">
+                <h3>${task.titulo}</h3>
+                <p>${task.descricao}</p>
+              </div>
+              <div class="acoes">
+                <button class="btn-concluir" disabled>Marcar como Concluída</button>
+                <button class="btn-excluir">Excluir</button>
+              </div>
+            </li>
+          `;
         } else {
           listaTasks.innerHTML += `
-                     <li class="tarefa">
-                         <div class="tarefa-info">
-                             <h3>${tasks[i].titulo}</h3>
-                             <p>${tasks[i].descricao}</p>
-                         </div>
-                         <div class="acoes">
-                             <button class="btn-concluir">Marcar como Concluída</button>
-                             <button class="btn-excluir">Excluir</button>
-                         </div>
-                     </li>
-                    
-                    `;
+            <li class="tarefa">
+              <div class="tarefa-info">
+                <h3>${task.titulo}</h3>
+                <p>${task.descricao}</p>
+              </div>
+              <div class="acoes">
+                <button class="btn-concluir">Marcar como Concluída</button>
+                <button class="btn-excluir">Excluir</button>
+              </div>
+            </li>
+          `;
         }
       }
     }
@@ -83,21 +81,20 @@ function filtroTarefas(tasks) {
     if (button === "filtro-pendentes") {
       listaTasks.innerHTML = "";
 
-      for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].concluida === false) {
+      for (const task of tasks) {
+        if (!task.concluida) {
           listaTasks.innerHTML += `
-                 <li class="tarefa">
-                     <div class="tarefa-info">
-                         <h3>${tasks[i].titulo}</h3>
-                         <p>${tasks[i].descricao}</p>
-                     </div>
-                     <div class="acoes">
-                         <button class="btn-concluir">Marcar como Concluída</button>
-                         <button class="btn-excluir">Excluir</button>
-                     </div>
-                 </li>
-                
-                `;
+            <li class="tarefa">
+              <div class="tarefa-info">
+                <h3>${task.titulo}</h3>
+                <p>${task.descricao}</p>
+              </div>
+              <div class="acoes">
+                <button class="btn-concluir">Marcar como Concluída</button>
+                <button class="btn-excluir">Excluir</button>
+              </div>
+            </li>
+          `;
         }
       }
     }
@@ -105,24 +102,24 @@ function filtroTarefas(tasks) {
     if (button === "filtro-concluidas") {
       listaTasks.innerHTML = "";
 
-      for (let i = 0; i < tasks.length; i++) {
-        if (tasks[i].concluida === true) {
+      for (const task of tasks) {
+        if (task.concluida) {
           listaTasks.innerHTML += `
-          <li class="tarefa concluida">
-          <div class="tarefa-info">
-          <h3>${tasks[i].titulo}</h3>
-          <p>${tasks[i].descricao}</p>
-          </div>
-          <div class="acoes">
-          <button class="btn-concluir" disabled>Marcar como Concluída</button>
-          <button class="btn-excluir">Excluir</button>
-          </div>
-          </li>
-          
+            <li class="tarefa concluida">
+              <div class="tarefa-info">
+                <h3>${task.titulo}</h3>
+                <p>${task.descricao}</p>
+              </div>
+              <div class="acoes">
+                <button class="btn-concluir" disabled>Marcar como Concluída</button>
+                <button class="btn-excluir">Excluir</button>
+              </div>
+            </li>
           `;
         }
       }
     }
+
   });
 }
 
