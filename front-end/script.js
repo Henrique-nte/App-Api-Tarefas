@@ -1,4 +1,10 @@
 const formTask = document.getElementById("form-tarefa");
+
+const tituloTask = formTask.querySelector("input");
+const descTask = formTask.querySelector("textarea");
+
+const listaTasks = document.getElementById("lista-tarefas");
+
 const url = "http://localhost:3000/tasks";
 
 async function getData() {
@@ -9,7 +15,7 @@ async function getData() {
       throw new Error(`Erro na response: ${response.status}`);
     }
 
-    const data = response.json();
+    const data = await response.json();
 
     return data;
 
@@ -33,10 +39,12 @@ function addTasks(data) {
   }
 }
 
+
+
 function filtroTarefas() {
   document.addEventListener("click", (event) => {
     const button = event.target.id;
-    let listaTasks = document.getElementById("lista-tarefas");
+
 
     if (button === "filtro-todas") {
       listaTasks.innerHTML = "";
@@ -139,18 +147,18 @@ async function sendNewTask(url, data) {
   }
 }
 
-function showMessage(message) {
-
+function showMessage(message, cor) {
   const h2 = document.createElement("h2");
   h2.classList.add("mensagem-sucesso");
   h2.style.display = 'block';
+  h2.style.backgroundColor = cor;
   h2.textContent = message;
 
   formTask.append(h2);
 
   setTimeout(() => {
     location.reload();
-  }, 1200)
+  }, 600)
 
 }
 
@@ -165,17 +173,25 @@ async function main() {
   button.addEventListener("click", (event) => {
     event.preventDefault();
 
-    const tituloTask = formTask.querySelector("input").value;
-    const descTask = formTask.querySelector("textarea").value;
+    if (!tituloTask.value) {
+      showMessage("Titulo vazio!", "red");
+      return;
+    }
 
-    let array = {
-      title: tituloTask,
-      desc: descTask
+    for (const task of tasks) {
+      if (task.titulo == tituloTask.value) {
+        showMessage("Tarefa duplicada!", "red");
+        return;
+      }
+    }
+
+    let task = {
+      titulo: tituloTask.value,
+      descricao: descTask.value
     };
 
-    sendNewTask(url, array);
-
-    showMessage("Tarefa adicionada!");
+    sendNewTask(url, task);
+    showMessage("Tarefa adicionada!", "green");
 
   });
 

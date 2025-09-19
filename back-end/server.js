@@ -44,13 +44,13 @@ app.get("/tasks", (req, response) => {
 //Post para adicionar novas tasks
 app.post("/tasks", (req, response) => {
 
-  const { title, desc } = req.body;
+  const { titulo, descricao } = req.body;
   // console.log(req.body);
 
   tasks.push({
     id: nextId,
-    titulo: title,
-    descricao: desc,
+    titulo: titulo,
+    descricao: descricao,
     concluida: false
   });
 
