@@ -1,4 +1,5 @@
-let url = "http://localhost:3000/tasks";
+const formTask = document.getElementById("form-tarefa");
+const url = "http://localhost:3000/tasks";
 
 async function getData() {
   try {
@@ -11,6 +12,7 @@ async function getData() {
     const data = response.json();
 
     return data;
+
   } catch (error) {
     console.error("Ocorreu um erro", error.message);
   }
@@ -137,13 +139,27 @@ async function sendNewTask(url, data) {
   }
 }
 
+function showMessage(message) {
+
+  const h2 = document.createElement("h2");
+  h2.classList.add("mensagem-sucesso");
+  h2.style.display = 'block';
+  h2.textContent = message;
+
+  formTask.append(h2);
+
+  setTimeout(() => {
+    location.reload();
+  }, 1000)
+
+}
+
 async function main() {
   const data = await getData();
   addTasks(data);
   filtroTarefas();
   // console.log(tasks);
 
-  const formTask = document.getElementById("form-tarefa");
   const button = formTask.querySelector("button");
 
   button.addEventListener("click", (event) => {
@@ -158,7 +174,11 @@ async function main() {
     };
 
     sendNewTask(url, array);
+
+    showMessage("Tarefa adicionada!");
+
   });
+
 
 }
 

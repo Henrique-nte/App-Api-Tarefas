@@ -28,6 +28,17 @@ form {
     margin-bottom: 1rem;
 }
 
+.mensagem-sucesso {
+    display: none;
+    /*É alterado com js*/
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    background: #24af65;
+    color: #fff;
+    font-size: 1rem;
+}
+
 form input,
 form textarea {
     padding: 0.8rem;
