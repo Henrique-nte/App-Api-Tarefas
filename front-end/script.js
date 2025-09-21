@@ -141,6 +141,7 @@ async function sendNewTask(url, data) {
 }
 
 function showMessage(message, cor) {
+
   const h2 = document.createElement("h2");
   h2.classList.add("mensagem-sucesso");
   h2.style.display = 'block';
