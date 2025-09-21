@@ -70,6 +70,23 @@ app.patch("/tasks/:id/concluir", (req, response) => {
 
 });
 
+//Deletar Tarefas
+app.delete("/taks/:id", (req, response) => {
+  const idTask = parseInt(req.params.id);
+
+  const taskIndex = tasks.findIndex(task => task.id === idTask);
+  if (taskIndex === -1) {
+    return response.status(404).json({ error: "Tarefa não encontrada" });
+  }
+
+  //Se encontrar
+  const deletedTask = tasks.splice(taskIndex, 1);
+
+  return response.status(200).json({ message: "Tarefa Deletada", task: deletedTask[0] });
+
+});
+
+
 app.listen(port, () => {
   console.log("Servidor rodando em http://localhost:3000");
 });
