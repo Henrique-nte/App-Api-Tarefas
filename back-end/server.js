@@ -56,6 +56,7 @@ app.post("/tasks", (req, response) => {
 
   nextId++;
   response.status(201);
+
 });
 
 //Patch para atualizar a tarefa como concluida
@@ -70,6 +71,7 @@ app.patch("/tasks/:id/concluir", (req, response) => {
   }
 
   response.status(404).send("Task nao encontrada.");
+
 });
 
 app.listen(port, () => {

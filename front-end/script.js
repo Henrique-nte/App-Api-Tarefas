@@ -37,8 +37,6 @@ function addTasks(data, tasks) {
   }
 }
 
-
-
 function filtroTarefas(tasks) {
   document.addEventListener("click", (event) => {
     const button = event.target.id;
