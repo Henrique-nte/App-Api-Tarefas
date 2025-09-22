@@ -207,16 +207,7 @@ async function fixTask(url, id) {
 
 }
 
-async function main() {
-  const tasks = [];
-
-  const data = await getData();
-  addTasks(data, tasks);
-  filtroTarefas(tasks);
-  listenerTasks(tasks);
-
-  // const button = document.querySelectorAll(".btn-concluir");
-
+function listenerFixed() {
   addEventListener("click", (event) => {
     const button = event.target;
 
@@ -230,8 +221,18 @@ async function main() {
     }
 
   });
+}
 
+async function main() {
+  const tasks = [];
   // console.log(tasks);
+
+  const data = await getData(); //Captura os dados do fetch
+  addTasks(data, tasks); //Adiciona as tasks no array local
+  filtroTarefas(tasks); //Filtra as tarefas por todas/pendentes/concluidas
+  listenerTasks(tasks); // Funcão que adiciona Tarefas
+  listenerFixed(); //Função que altera o status concluida para true
+
 
 }
 
