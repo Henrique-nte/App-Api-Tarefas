@@ -67,7 +67,7 @@ function filtroTarefas(tasks) {
                 <p>${task.descricao}</p>
               </div>
               <div class="acoes">
-                <button class="btn-concluir">Marcar como Concluída</button>
+                <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
                 <button class="btn-excluir">Excluir</button>
               </div>
             </li>
@@ -88,7 +88,7 @@ function filtroTarefas(tasks) {
                 <p>${task.descricao}</p>
               </div>
               <div class="acoes">
-                <button class="btn-concluir">Marcar como Concluída</button>
+                <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
                 <button class="btn-excluir">Excluir</button>
               </div>
             </li>
@@ -109,7 +109,7 @@ function filtroTarefas(tasks) {
                 <p>${task.descricao}</p>
               </div>
               <div class="acoes">
-                <button class="btn-concluir" disabled>Marcar como Concluída</button>
+                <button class="btn-concluir" disabled data-id = "${task.id}">Marcar como Concluída</button>
                 <button class="btn-excluir">Excluir</button>
               </div>
             </li>
@@ -156,14 +156,7 @@ function showMessage(message, cor) {
 
 }
 
-async function main() {
-  const tasks = [];
-
-  const data = await getData();
-  addTasks(data, tasks);
-  filtroTarefas(tasks);
-  // console.log(tasks);
-
+function listenerTasks(tasks) {
   const button = formTask.querySelector("button");
 
   button.addEventListener("click", (event) => {
@@ -191,6 +184,54 @@ async function main() {
     showMessage("Tarefa adicionada!", "green");
 
   });
+}
+
+async function fixTask(url, id) {
+
+  try {
+    const response = await fetch(`${url}/${id}/concluir`, {
+      method: "PATCH",
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao concluir tarefa.");
+    }
+
+    const taskAtualizada = await response.json();
+    console.log("Tarefa Concluida", taskAtualizada);
+
+
+  } catch (error) {
+    console.error("Erro:", error.message);
+  }
+
+}
+
+async function main() {
+  const tasks = [];
+
+  const data = await getData();
+  addTasks(data, tasks);
+  filtroTarefas(tasks);
+  listenerTasks(tasks);
+
+  // const button = document.querySelectorAll(".btn-concluir");
+
+  addEventListener("click", (event) => {
+    const button = event.target;
+
+    if (button.classList.contains("btn-concluir")) {
+
+      let idTask = button.dataset.id;
+      console.log(idTask);
+      fixTask(url, idTask);
+      showMessage("Tarefa marcada como concluida!", "blue");
+
+    }
+
+  });
+
+  // console.log(tasks);
 
 }
 

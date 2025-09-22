@@ -6,7 +6,7 @@ const app = express(); //Criação do servidor
 const port = 3000; //Será executado na porta 3000
 
 app.use(express.json()); //Permite receber json nas requisições
-
+app.use(cors());
 
 //Array
 const tasks = [
@@ -28,30 +28,61 @@ const tasks = [
     descricao: "Construir um serve.js com node, express e cors",
     concluida: false,
   },
+  {
+    id: 4,
+    titulo: "Testar a aplicação",
+    descricao: "Executar testes unitários e de integração",
+    concluida: false,
+  },
+  {
+    id: 5,
+    titulo: "Documentar endpoints",
+    descricao: "Criar documentação da API para o time de front-end",
+    concluida: false,
+  },
+  {
+    id: 6,
+    titulo: "Deploy no servidor",
+    descricao: "Publicar a aplicação em ambiente de produção",
+    concluida: false,
+  },
 ];
+
 
 let nextId = 4;
 
 //Faço um get de tarefas
 app.get("/tasks", (req, response) => {
-  response.send(tasks);
+  response.json(tasks);
 });
+
+function addTask(tasks, newTask) {
+
+  tasks.push({
+    id: newTask.id,
+    titulo: newTask.titulo,
+    descricao: newTask.descricao,
+    concluida: false
+  });
+
+}
 
 //Post para adicionar novas tasks
 app.post("/tasks", (req, response) => {
 
   const { titulo, descricao } = req.body;
-  // console.log(req.body);
 
-  tasks.push({
-    id: nextId,
-    titulo: titulo,
-    descricao: descricao,
-    concluida: false
-  });
+  const newTask = {
+    "id": nextId,
+    "titulo": titulo,
+    "descricao": descricao,
+    "concluida": false
+  }
+
+  addTask(tasks, newTask); //Adiciono a task em taks
 
   nextId++;
-  response.status(201);
+  response.status(201).json({ message: "Tarefa adicionada com sucesso!", task: newTask });
 
 });
 
@@ -63,7 +94,7 @@ app.patch("/tasks/:id/concluir", (req, response) => {
 
   if (task) {
     task.concluida = true;
-    response.status(200).send(task);
+    return response.status(200).send(task);
   }
 
   response.status(404).send("Task nao encontrada.");
@@ -71,7 +102,7 @@ app.patch("/tasks/:id/concluir", (req, response) => {
 });
 
 //Deletar Tarefas
-app.delete("/taks/:id", (req, response) => {
+app.delete("/tasks/:id", (req, response) => {
   const idTask = parseInt(req.params.id);
 
   const taskIndex = tasks.findIndex(task => task.id === idTask);
