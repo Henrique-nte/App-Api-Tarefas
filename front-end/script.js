@@ -212,8 +212,8 @@ function listenerFixed() {
     const button = event.target;
 
     if (button.classList.contains("btn-concluir")) {
-
       let idTask = button.dataset.id;
+
       console.log(idTask);
       fixTask(url, idTask);
       showMessage("Tarefa marcada como concluida!", "blue");

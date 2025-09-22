@@ -136,7 +136,15 @@ ul {
     font-size: 0.9rem;
     background: #28a745;
     color: #fff;
+    transition: transform 0.3s ease;
+    /* animação suave */
 }
+
+.btn-concluir:hover {
+    transform: scale(1.1);
+    /* aumenta o tamanho para 110% */
+}
+
 
 .btn-concluir:disabled {
     background: #ccc;
