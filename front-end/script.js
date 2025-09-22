@@ -228,11 +228,11 @@ async function main() {
   // console.log(tasks);
 
   const data = await getData(); //Captura os dados do fetch
-  addTasks(data, tasks); //Adiciona as tasks no array local
   filtroTarefas(tasks); //Filtra as tarefas por todas/pendentes/concluidas
   listenerTasks(tasks); // Funcão que adiciona Tarefas
   listenerFixed(); //Função que altera o status concluida para true
 
+  addTasks(data, tasks); //Adiciona as tasks no array local
 
 }
 

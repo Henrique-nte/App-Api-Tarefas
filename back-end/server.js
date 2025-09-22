@@ -49,7 +49,7 @@ const tasks = [
 ];
 
 
-let nextId = 4;
+let nextId = 7;
 
 //Faço um get de tarefas
 app.get("/tasks", (req, response) => {
@@ -94,10 +94,10 @@ app.patch("/tasks/:id/concluir", (req, response) => {
 
   if (task) {
     task.concluida = true;
-    return response.status(200).send(task);
+    return response.status(200).json({ message: "Tarefa marcada como concluída" });
   }
 
-  response.status(404).send("Task nao encontrada.");
+  response.status(404).json({ message: "Tarefa não encontrada" });
 
 });
 
