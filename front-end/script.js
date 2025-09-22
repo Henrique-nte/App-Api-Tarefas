@@ -54,8 +54,8 @@ function filtroTarefas(tasks) {
                 <p>${task.descricao}</p>
               </div>
               <div class="acoes">
-                <button class="btn-concluir" disabled>Marcar como Concluída</button>
-                <button class="btn-excluir">Excluir</button>
+                <button class="btn-concluir" data-id = "${task.id}" disabled>Marcar como Concluída</button>
+                <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
               </div>
             </li>
           `;
@@ -68,7 +68,7 @@ function filtroTarefas(tasks) {
               </div>
               <div class="acoes">
                 <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
-                <button class="btn-excluir">Excluir</button>
+                <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
               </div>
             </li>
           `;
@@ -89,7 +89,7 @@ function filtroTarefas(tasks) {
               </div>
               <div class="acoes">
                 <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
-                <button class="btn-excluir">Excluir</button>
+                <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
               </div>
             </li>
           `;
@@ -110,7 +110,7 @@ function filtroTarefas(tasks) {
               </div>
               <div class="acoes">
                 <button class="btn-concluir" disabled data-id = "${task.id}">Marcar como Concluída</button>
-                <button class="btn-excluir">Excluir</button>
+                <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
               </div>
             </li>
           `;
@@ -186,10 +186,31 @@ function listenerTasks(tasks) {
   });
 }
 
-async function fixTask(url, id) {
+function getId() {
+  addEventListener("click", (event) => {
+    const button = event.target;
+
+    if (button.classList.contains("btn-concluir") || button.classList.contains("btn-excluir")) {
+      const idTask = button.dataset.id;
+      console.log(idTask);
+      if (idTask) {
+        return idTask;
+      }
+
+      return;
+
+    }
+
+  });
+}
+
+
+async function fixTask() {
+
+  const idTask = getId();
 
   try {
-    const response = await fetch(`${url}/${id}/concluir`, {
+    const response = await fetch(`${url}/${idTask}/concluir`, {
       method: "PATCH",
     });
 
@@ -207,20 +228,24 @@ async function fixTask(url, id) {
 
 }
 
-function listenerFixed() {
-  addEventListener("click", (event) => {
-    const button = event.target;
 
-    if (button.classList.contains("btn-concluir")) {
-      let idTask = button.dataset.id;
 
-      console.log(idTask);
-      fixTask(url, idTask);
-      showMessage("Tarefa marcada como concluida!", "blue");
+async function removeTask(url, id) {
+  try {
+    const response = await fetch(`${url}/${id}`, {
+      method: "DELETE",
+    });
 
+    if (!response.ok) {
+      throw new Error("Erro ao excluir tarefa.");
     }
 
-  });
+    const taskDeletada = await response.json();
+    console.log("Tarefe excluida", taskDeletada);
+
+  } catch (error) {
+    console.error("Erro: ", error.message);
+  }
 }
 
 async function main() {
@@ -230,9 +255,23 @@ async function main() {
   const data = await getData(); //Captura os dados do fetch
   filtroTarefas(tasks); //Filtra as tarefas por todas/pendentes/concluidas
   listenerTasks(tasks); // Funcão que adiciona Tarefas
-  listenerFixed(); //Função que altera o status concluida para true
+  fixTask(); //Função que altera o status concluida para true
 
   addTasks(data, tasks); //Adiciona as tasks no array local
+
+  addEventListener("click", (event) => {
+    const button = event.target;
+
+    if (button.classList.contains("btn-excluir")) {
+      let idTask = button.dataset.id;
+
+      removeTask(url, idTask);
+      showMessage("Tarefa excluida!", "orange");
+
+    }
+
+
+  });
 
 }
 
