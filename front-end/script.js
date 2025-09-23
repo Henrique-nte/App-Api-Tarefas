@@ -197,6 +197,11 @@ async function main() {
   fixTask(); //Função que altera o status concluida para true
   removeTask(); //Função que permite remover as tasks
   addToTasks(data, tasks); //Adiciona as tasks no array local
+
+}
+
+
+function filtrarTasks() {
   //Adicionar funcionalidade que atualiza meu front inves de atualizar a pagina inteira
 
   const buttonAll = document.getElementById("filtro-todas");
@@ -206,18 +211,21 @@ async function main() {
   const buttons = [buttonAll, buttonPendents, buttonFix];
 
   buttons.forEach((botao) => {
-
     botao.addEventListener("click", () => {
-
-      
-
+      buttons.forEach((b) => b.classList.remove("active"));
       botao.classList.add("active");
-    });
 
+      const active = buttons.find(button => button.classList.contains("active"));
+
+      if (active) {
+        console.log(active);
+      }
+
+    });
   });
 
 
 }
 
-
 main();
+filtrarTasks();
