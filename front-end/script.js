@@ -37,89 +37,6 @@ function addToTasks(data, tasks) {
   }
 }
 
-function filtroTasks(tasks) {
-  listaTasks.innerHTML = "";
-  document.addEventListener("click", (event) => {
-    const button = event.target.id;
-
-    if (button === "filtro-todas") {
-      listaTasks.innerHTML = "";
-
-      for (const task of tasks) {
-        if (task.concluida) {
-          listaTasks.innerHTML += `
-            <li class="tarefa concluida">
-              <div class="tarefa-info">
-                <h3>${task.titulo}</h3>
-                <p>${task.descricao}</p>
-              </div>
-              <div class="acoes">
-                <button class="btn-concluir" data-id = "${task.id}" disabled>Marcar como Concluída</button>
-                <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
-              </div>
-            </li>
-          `;
-        } else {
-          listaTasks.innerHTML += `
-            <li class="tarefa">
-              <div class="tarefa-info">
-                <h3>${task.titulo}</h3>
-                <p>${task.descricao}</p>
-              </div>
-              <div class="acoes">
-                <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
-                <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
-              </div>
-            </li>
-          `;
-        }
-      }
-    }
-
-    if (button === "filtro-pendentes") {
-      listaTasks.innerHTML = "";
-
-      for (const task of tasks) {
-        if (!task.concluida) {
-          listaTasks.innerHTML += `
-            <li class="tarefa">
-              <div class="tarefa-info">
-                <h3>${task.titulo}</h3>
-                <p>${task.descricao}</p>
-              </div>
-              <div class="acoes">
-                <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
-                <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
-              </div>
-            </li>
-          `;
-        }
-      }
-    }
-
-    if (button === "filtro-concluidas") {
-      listaTasks.innerHTML = "";
-
-      for (const task of tasks) {
-        if (task.concluida) {
-          listaTasks.innerHTML += `
-            <li class="tarefa concluida">
-              <div class="tarefa-info">
-                <h3>${task.titulo}</h3>
-                <p>${task.descricao}</p>
-              </div>
-              <div class="acoes">
-                <button class="btn-concluir" disabled data-id = "${task.id}">Marcar como Concluída</button>
-                <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
-              </div>
-            </li>
-          `;
-        }
-      }
-    }
-
-  });
-}
 
 async function sendNewTask(url, data) {
   try {
@@ -275,14 +192,32 @@ async function main() {
   // console.log(tasks);
   const data = await getData(); //Captura os dados do fetch get
 
-  filtroTasks(tasks); //Filtra as tarefas por todas/pendentes/concluidas
+  // filtroTasks(tasks); //Filtra as tarefas por todas/pendentes/concluidas
   addTask(tasks); // Funcão que adiciona Tarefas no server
   fixTask(); //Função que altera o status concluida para true
   removeTask(); //Função que permite remover as tasks
   addToTasks(data, tasks); //Adiciona as tasks no array local
+  //Adicionar funcionalidade que atualiza meu front inves de atualizar a pagina inteira
+
+  const buttonAll = document.getElementById("filtro-todas");
+  const buttonPendents = document.getElementById("filtro-pendentes");
+  const buttonFix = document.getElementById("filtro-concluidas");
+
+  const buttons = [buttonAll, buttonPendents, buttonFix];
+
+  buttons.forEach((botao) => {
+
+    botao.addEventListener("click", () => {
+
+      
+
+      botao.classList.add("active");
+    });
+
+  });
+
 
 }
 
-//Adicionar funcionalidade que atualiza meu front inves de atualizar a pagina inteira
 
 main();

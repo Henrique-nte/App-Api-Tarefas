@@ -82,12 +82,16 @@ form button:hover {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    background: #ddd;
+    background: #94c4be;
     transition: background 0.3s;
 }
 
+.active {
+    background: #588b85 !important;
+}
+
 .filtros button:hover {
-    background: #bbb;
+    background: #55a097;
 }
 
 ul {
