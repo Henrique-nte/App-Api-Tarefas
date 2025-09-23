@@ -26,7 +26,7 @@ async function getData() {
 
 getData();
 
-function addTasks(data, tasks) {
+function addToTasks(data, tasks) {
   for (const task of data) {
     tasks.push({
       id: task.id,
@@ -37,10 +37,10 @@ function addTasks(data, tasks) {
   }
 }
 
-function filtroTarefas(tasks) {
+function filtroTasks(tasks) {
+  listaTasks.innerHTML = "";
   document.addEventListener("click", (event) => {
     const button = event.target.id;
-
 
     if (button === "filtro-todas") {
       listaTasks.innerHTML = "";
@@ -121,7 +121,7 @@ function filtroTarefas(tasks) {
   });
 }
 
-async function sendNewTask(url, data) {
+async function sendNewTask(url, data, tasks) {
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -138,25 +138,27 @@ async function sendNewTask(url, data) {
   } catch (error) {
     console.error("Falha na requisição:", error.message);
   }
+
+  filtroTasks(tasks);
 }
 
-function showMessage(message, cor) {
+function showMessage(message, color) {
 
   const h2 = document.createElement("h2");
   h2.classList.add("mensagem-sucesso");
   h2.style.display = 'block';
-  h2.style.backgroundColor = cor;
+  h2.style.backgroundColor = color;
   h2.textContent = message;
 
   formTask.append(h2);
 
-  setTimeout(() => {
-    location.reload();
-  }, 600)
+  // setTimeout(() => {
+  //   location.reload();
+  // }, 600)
 
 }
 
-function listenerTasks(tasks) {
+function addTask(tasks) {
   const button = formTask.querySelector("button");
 
   button.addEventListener("click", (event) => {
@@ -179,7 +181,7 @@ function listenerTasks(tasks) {
       descricao: descTask.value
     };
 
-    sendNewTask(url, task)
+    sendNewTask(url, task, tasks)
 
     showMessage("Tarefa adicionada!", "green");
 
@@ -187,91 +189,98 @@ function listenerTasks(tasks) {
 }
 
 function getId() {
-  addEventListener("click", (event) => {
-    const button = event.target;
+  return new Promise((resolve) => {
+    addEventListener("click", (event) => {
+      const button = event.target;
 
-    if (button.classList.contains("btn-concluir") || button.classList.contains("btn-excluir")) {
-      const idTask = button.dataset.id;
-      console.log(idTask);
-      if (idTask) {
-        return idTask;
+      if (button.classList.contains("btn-concluir")) {
+        const idTask = button.dataset.id;
+
+        if (idTask) {
+          resolve({ id: idTask, acao: "concluir" });
+        }
+
+      }
+      if (button.classList.contains("btn-excluir")) {
+        const idTask = button.dataset.id;
+
+        if (idTask) {
+          resolve({ id: idTask, acao: "excluir" });
+        }
       }
 
       return;
-
-    }
+    });
 
   });
 }
 
-
 async function fixTask() {
 
-  const idTask = getId();
+  const { id, acao } = await getId();
+  if (acao === "concluir") {
+    try {
+      const response = await fetch(`${url}/${id}/concluir`, {
+        method: "PATCH",
+      });
 
-  try {
-    const response = await fetch(`${url}/${idTask}/concluir`, {
-      method: "PATCH",
-    });
+      if (!response.ok) {
+        throw new Error("Erro ao concluir tarefa.");
+      }
 
-    if (!response.ok) {
-      throw new Error("Erro ao concluir tarefa.");
+      const taskAtualizada = await response.json();
+      console.log("Tarefa Concluida", taskAtualizada);
+
+
+    } catch (error) {
+      console.error("Erro:", error.message);
     }
 
-    const taskAtualizada = await response.json();
-    console.log("Tarefa Concluida", taskAtualizada);
-
-
-  } catch (error) {
-    console.error("Erro:", error.message);
+    showMessage("Tarefa marcada como concluída!", "blue");
   }
+
+  return;
 
 }
 
+async function removeTask() {
+  const { id, acao } = await getId();
 
+  if (acao === "excluir") {
+    try {
+      const response = await fetch(`${url}/${id}`, {
+        method: "DELETE",
+      });
 
-async function removeTask(url, id) {
-  try {
-    const response = await fetch(`${url}/${id}`, {
-      method: "DELETE",
-    });
+      if (!response.ok) {
+        throw new Error("Erro ao excluir tarefa.");
+      }
 
-    if (!response.ok) {
-      throw new Error("Erro ao excluir tarefa.");
+      const taskDeletada = await response.json();
+      console.log("Tarefe excluida", taskDeletada);
+
+    } catch (error) {
+      console.error("Erro: ", error.message);
     }
 
-    const taskDeletada = await response.json();
-    console.log("Tarefe excluida", taskDeletada);
+    showMessage("Tarefa excluida!", "orange");
 
-  } catch (error) {
-    console.error("Erro: ", error.message);
   }
+
+  return;
+
 }
 
 async function main() {
   const tasks = [];
   // console.log(tasks);
+  const data = await getData(); //Captura os dados do fetch get
 
-  const data = await getData(); //Captura os dados do fetch
-  filtroTarefas(tasks); //Filtra as tarefas por todas/pendentes/concluidas
-  listenerTasks(tasks); // Funcão que adiciona Tarefas
+  filtroTasks(tasks); //Filtra as tarefas por todas/pendentes/concluidas
+  addTask(tasks); // Funcão que adiciona Tarefas no server
   fixTask(); //Função que altera o status concluida para true
-
-  addTasks(data, tasks); //Adiciona as tasks no array local
-
-  addEventListener("click", (event) => {
-    const button = event.target;
-
-    if (button.classList.contains("btn-excluir")) {
-      let idTask = button.dataset.id;
-
-      removeTask(url, idTask);
-      showMessage("Tarefa excluida!", "orange");
-
-    }
-
-
-  });
+  removeTask(); //Função que permite remover as tasks
+  addToTasks(data, tasks); //Adiciona as tasks no array local
 
 }
 
