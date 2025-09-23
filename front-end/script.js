@@ -121,7 +121,7 @@ function filtroTasks(tasks) {
   });
 }
 
-async function sendNewTask(url, data, tasks) {
+async function sendNewTask(url, data) {
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -139,7 +139,6 @@ async function sendNewTask(url, data, tasks) {
     console.error("Falha na requisição:", error.message);
   }
 
-  filtroTasks(tasks);
 }
 
 function showMessage(message, color) {
@@ -152,9 +151,9 @@ function showMessage(message, color) {
 
   formTask.append(h2);
 
-  // setTimeout(() => {
-  //   location.reload();
-  // }, 600)
+  setTimeout(() => {
+    location.reload();
+  }, 600)
 
 }
 
@@ -181,7 +180,7 @@ function addTask(tasks) {
       descricao: descTask.value
     };
 
-    sendNewTask(url, task, tasks)
+    sendNewTask(url, task)
 
     showMessage("Tarefa adicionada!", "green");
 
@@ -283,5 +282,7 @@ async function main() {
   addToTasks(data, tasks); //Adiciona as tasks no array local
 
 }
+
+//Adicionar funcionalidade que atualiza meu front inves de atualizar a pagina inteira
 
 main();
