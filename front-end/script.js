@@ -69,9 +69,98 @@ function showMessage(message, color) {
 
   formTask.append(h2);
 
-  setTimeout(() => {
-    location.reload();
-  }, 600)
+  // setTimeout(() => {
+  //   location.reload();
+  // }, 600)
+
+}
+
+
+function showTasks(tasks, id) {
+  listaTasks.innerHTML = "";
+  if (id === "filtro-todas") {
+    tasks.forEach(task => {
+      return listaTasks.innerHTML += `
+            <li class="tarefa">
+            <div class="tarefa-info">
+            <h3>${task.titulo}</h3>
+            <p>${task.descricao}</p>
+            </div>
+            <div class="acoes">
+            <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
+            <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
+            </div>
+            </li>
+          `;
+    });
+
+  }
+  if (id === "filtro-pendentes") {
+    listaTasks.innerHTML = "";
+    tasks.forEach(task => {
+      if (task.concluida === false) {
+        return listaTasks.innerHTML += `
+            <li class="tarefa">
+            <div class="tarefa-info">
+            <h3>${task.titulo}</h3>
+            <p>${task.descricao}</p>
+            </div>
+            <div class="acoes">
+            <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
+            <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
+            </div>
+            </li>
+          `;
+
+      }
+    });
+
+  }
+  if (id === "filtro-concluidas") {
+    listaTasks.innerHTML = "";
+    tasks.forEach(task => {
+      if (task.concluida === true) {
+        return listaTasks.innerHTML += `
+            <li class="tarefa">
+            <div class="tarefa-info">
+            <h3>${task.titulo}</h3>
+            <p>${task.descricao}</p>
+            </div>
+            <div class="acoes">
+            <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
+            <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
+            </div>
+            </li>
+          `;
+      }
+
+    });
+
+  }
+
+}
+
+function filtrarTasks(tasks) {
+  //Adicionar funcionalidade que atualiza meu front inves de atualizar a pagina inteira
+
+  const buttonAll = document.getElementById("filtro-todas");
+  const buttonPendents = document.getElementById("filtro-pendentes");
+  const buttonFix = document.getElementById("filtro-concluidas");
+
+  const buttons = [buttonAll, buttonPendents, buttonFix];
+
+  buttons.forEach((botao) => {
+    botao.addEventListener("click", () => {
+      buttons.forEach((b) => b.classList.remove("active"));
+      botao.classList.add("active");
+
+      const active = buttons.find(button => button.classList.contains("active"));
+      //ACTIVE E ACTIVE.ID
+      showTasks(tasks, active.id);
+
+    });
+  });
+
 
 }
 
@@ -98,7 +187,9 @@ function addTask(tasks) {
       descricao: descTask.value
     };
 
-    sendNewTask(url, task)
+    sendNewTask(url, task);
+
+    //Talvez adicionar a lógica aqui
 
     showMessage("Tarefa adicionada!", "green");
 
@@ -202,97 +293,6 @@ async function main() {
   filtrarTasks(tasks);
 }
 
-function showTasks(tasks, id) {
-  listaTasks.innerHTML = "";
-  if (id === "filtro-todas") {
-    tasks.forEach(task => {
-      return listaTasks.innerHTML += `
-            <li class="tarefa">
-            <div class="tarefa-info">
-            <h3>${task.titulo}</h3>
-            <p>${task.descricao}</p>
-            </div>
-            <div class="acoes">
-            <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
-            <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
-            </div>
-            </li>
-          `;
-    });
-
-  }
-  if (id === "filtro-pendentes") {
-    listaTasks.innerHTML = "";
-    tasks.forEach(task => {
-      if (task.concluida === false) {
-        return listaTasks.innerHTML += `
-            <li class="tarefa">
-            <div class="tarefa-info">
-            <h3>${task.titulo}</h3>
-            <p>${task.descricao}</p>
-            </div>
-            <div class="acoes">
-            <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
-            <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
-            </div>
-            </li>
-          `;
-
-      }
-    });
-
-  }
-  if (id === "filtro-concluidas") {
-    listaTasks.innerHTML = "";
-    tasks.forEach(task => {
-      if (task.concluida === true) {
-        return listaTasks.innerHTML += `
-            <li class="tarefa">
-            <div class="tarefa-info">
-            <h3>${task.titulo}</h3>
-            <p>${task.descricao}</p>
-            </div>
-            <div class="acoes">
-            <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
-            <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
-            </div>
-            </li>
-          `;
-      }
-
-    });
-
-  }
-
-
-
-
-}
-
-
-function filtrarTasks(tasks) {
-  //Adicionar funcionalidade que atualiza meu front inves de atualizar a pagina inteira
-
-  const buttonAll = document.getElementById("filtro-todas");
-  const buttonPendents = document.getElementById("filtro-pendentes");
-  const buttonFix = document.getElementById("filtro-concluidas");
-
-  const buttons = [buttonAll, buttonPendents, buttonFix];
-
-  buttons.forEach((botao) => {
-    botao.addEventListener("click", () => {
-      buttons.forEach((b) => b.classList.remove("active"));
-      botao.classList.add("active");
-
-      const active = buttons.find(button => button.classList.contains("active"));
-      //ACTIVE E ACTIVE.ID
-      showTasks(tasks, active.id);
-
-    });
-  });
-
-
-}
 
 main();
 
