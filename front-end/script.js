@@ -1,3 +1,4 @@
+
 const formTask = document.getElementById("form-tarefa");
 
 const tituloTask = formTask.querySelector("input");
@@ -198,10 +199,78 @@ async function main() {
   removeTask(); //Função que permite remover as tasks
   addToTasks(data, tasks); //Adiciona as tasks no array local
 
+  filtrarTasks(tasks);
+}
+
+function showTasks(tasks, id) {
+  listaTasks.innerHTML = "";
+  if (id === "filtro-todas") {
+    tasks.forEach(task => {
+      return listaTasks.innerHTML += `
+            <li class="tarefa">
+            <div class="tarefa-info">
+            <h3>${task.titulo}</h3>
+            <p>${task.descricao}</p>
+            </div>
+            <div class="acoes">
+            <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
+            <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
+            </div>
+            </li>
+          `;
+    });
+
+  }
+  if (id === "filtro-pendentes") {
+    listaTasks.innerHTML = "";
+    tasks.forEach(task => {
+      if (task.concluida === false) {
+        return listaTasks.innerHTML += `
+            <li class="tarefa">
+            <div class="tarefa-info">
+            <h3>${task.titulo}</h3>
+            <p>${task.descricao}</p>
+            </div>
+            <div class="acoes">
+            <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
+            <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
+            </div>
+            </li>
+          `;
+
+      }
+    });
+
+  }
+  if (id === "filtro-concluidas") {
+    listaTasks.innerHTML = "";
+    tasks.forEach(task => {
+      if (task.concluida === true) {
+        return listaTasks.innerHTML += `
+            <li class="tarefa">
+            <div class="tarefa-info">
+            <h3>${task.titulo}</h3>
+            <p>${task.descricao}</p>
+            </div>
+            <div class="acoes">
+            <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
+            <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
+            </div>
+            </li>
+          `;
+      }
+
+    });
+
+  }
+
+
+
+
 }
 
 
-function filtrarTasks() {
+function filtrarTasks(tasks) {
   //Adicionar funcionalidade que atualiza meu front inves de atualizar a pagina inteira
 
   const buttonAll = document.getElementById("filtro-todas");
@@ -216,10 +285,8 @@ function filtrarTasks() {
       botao.classList.add("active");
 
       const active = buttons.find(button => button.classList.contains("active"));
-
-      if (active) {
-        console.log(active);
-      }
+      //ACTIVE E ACTIVE.ID
+      showTasks(tasks, active.id);
 
     });
   });
@@ -228,4 +295,4 @@ function filtrarTasks() {
 }
 
 main();
-filtrarTasks();
+
