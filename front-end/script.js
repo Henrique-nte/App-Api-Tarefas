@@ -33,9 +33,20 @@ function addToTasks(data, tasks) {
       id: task.id,
       titulo: task.titulo,
       descricao: task.descricao,
-      concluida: task.concluida,
+      concluida: task.concluida
     });
   }
+}
+
+function addTaskToTasks(task, tasks) {
+
+  tasks.push({
+    id: task.id,
+    titulo: task.titulo,
+    descricao: task.descricao,
+    concluida: task.concluida
+  });
+
 }
 
 
@@ -53,13 +64,16 @@ async function sendNewTask(url, data) {
       throw new Error(`Erro no post: ${response.status}`);
     }
 
+    const date = await getData();
+    console.log(date);
+
   } catch (error) {
     console.error("Falha na requisição:", error.message);
   }
 
 }
 
-function showMessage(message, color) {
+function showMessage(message, color, task) {
 
   const h2 = document.createElement("h2");
   h2.classList.add("mensagem-sucesso");
@@ -69,9 +83,28 @@ function showMessage(message, color) {
 
   formTask.append(h2);
 
-  // setTimeout(() => {
-  //   location.reload();
-  // }, 600)
+  setTimeout(() => {
+    h2.style.display = "none";
+  }, 1000)
+
+}
+
+async function showTask(task) {
+
+  // listaTasks.innerHTML = "";
+
+  listaTasks.innerHTML += `
+        <li class="tarefa">
+        <div class="tarefa-info">
+        <h3>${task.titulo}</h3>
+        <p>${task.descricao}</p>
+        </div>
+        <div class="acoes">
+        <button class="btn-concluir" data-id = "${task.id}">Marcar como Concluída</button>
+        <button class="btn-excluir" data-id = "${task.id}">Excluir</button>
+        </div>
+        </li>
+  `;
 
 }
 
@@ -189,7 +222,7 @@ function addTask(tasks) {
 
     sendNewTask(url, task);
 
-    //Talvez adicionar a lógica aqui
+    addTaskToTasks(task, tasks);
 
     showMessage("Tarefa adicionada!", "green");
 
@@ -289,8 +322,9 @@ async function main() {
   fixTask(); //Função que altera o status concluida para true
   removeTask(); //Função que permite remover as tasks
   addToTasks(data, tasks); //Adiciona as tasks no array local
-
   filtrarTasks(tasks);
+
+
 }
 
 
